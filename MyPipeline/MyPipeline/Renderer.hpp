@@ -5,12 +5,7 @@
 #include "glfw/glfw3.h"
 #include "Window.hpp"
 #include <vector>
-
-struct DeviceQueue 
-{
-	int index = -1;
-	VkQueue queue = VK_NULL_HANDLE;
-};
+#include "RendererStructs.hpp"
 
 class Renderer
 {
@@ -45,6 +40,8 @@ private:
 
 	void PickPhysicalDevice();
 
+	void UpdateWindow(Window& window);
+
 	void CreateCommandBuffers();
 
 	void CreateRenderPass();
@@ -54,6 +51,8 @@ private:
 	void PrintLayers();
 
 	void PrintExtensions();
+
+	void UpdateWindow(Window& window);
 
 	Renderer(Renderer &other);
 	

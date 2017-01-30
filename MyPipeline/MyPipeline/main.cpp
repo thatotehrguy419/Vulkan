@@ -5,13 +5,12 @@
 
 void main()
 {
-	glfwInit();
-
+	Window::InitGLFW();
 	Window window;
+	window.CreateWindow();
 
 	Renderer renderer;
-
-	renderer.Init();
+	renderer.Init(window);
 
 
 	while (!window.ShouldClose())

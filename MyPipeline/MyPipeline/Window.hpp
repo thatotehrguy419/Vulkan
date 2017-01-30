@@ -6,6 +6,7 @@
 #include <Vulkan/vulkan.h>
 #include "GLFW/glfw3.h"
 #include <vector>
+#include "RendererStructs.hpp"
 
 class Window
 {
@@ -17,25 +18,23 @@ public:
 
 	VkSurfaceKHR GetWindowSurface();
 
-	VkSwapchainKHR GetSwapchain();
-	VkImage GetChainImage(int index);
-	VkImageView GetChainView(int index);
-	VkFormat GetChainFormat();
+	Swapchain GetSwapchain();
+
+	void SetSwapchain(Swapchain chain);
+
+	void CreateSurface(VkInstance instance);
+
+	void CreateWindow();
 
 	static void InitGLFW();
 
 private:
-	static bool initialized;
-
 	GLFWwindow* window;
 	VkSurfaceKHR surface;
 
-	VkSwapchainKHR swapchain;
-	VkFormat chainFormat;
-	std::vector<VkImage> chainImages;
-	std::vector<VkImageView> chainViews;
+	Swapchain swapchain;	
 
-	
+	static bool initialized;
 };
 
 #endif // WINDOW_HPP

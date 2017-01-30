@@ -2,12 +2,6 @@
 
 Window::Window()
 {
-
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-
-	window = glfwCreateWindow(800, 800, "Default Title", nullptr, nullptr);
-
 }
 
 Window::~Window()
@@ -24,30 +18,38 @@ VkSurfaceKHR Window::GetWindowSurface()
 	return surface;
 }
 
-VkSwapchainKHR Window::GetSwapchain()
+Swapchain Window::GetSwapchain()
 {
 	return swapchain;
 }
 
-VkImage Window::GetChainImage(int index)
+void Window::SetSwapchain(Swapchain chain)
 {
-	return chainImages[index];
+	swapchain = chain;
 }
 
-VkImageView Window::GetChainView(int index)
+void Window::CreateSurface(VkInstance instance)
 {
-	return chainViews[index];
+	if(surface != VK_NULL_HANDLE)
+		vkDestroySurfaceKHR()
+	glfwCreateWindowSurface(instance, window, nullptr, &surface);
 }
 
-VkFormat Window::GetChainFormat()
+void Window::CreateWindow()
 {
-	return chainFormat;
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+
+	window = glfwCreateWindow(800, 800, "Default Title", nullptr, nullptr);
 }
 
 void Window::InitGLFW()
 {
 	if (!initialized)
+	{
 		glfwInit();
+		initialized = true;
+	}
 }
 
 bool Window::initialized(false);
