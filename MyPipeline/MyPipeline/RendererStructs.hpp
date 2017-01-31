@@ -4,10 +4,11 @@
 
 struct Swapchain
 {
-	VkSwapchainKHR chain;
-	std::vector<VkImage> images;
-	std::vector<VkImageView> views;
-	VkSurfaceFormatKHR format;
+	VkSwapchainKHR chain = VK_NULL_HANDLE;
+	std::vector<VkImage> images();
+	std::vector<VkImageView> views();
+
+	VkSurfaceFormatKHR format{};
 };
 
 struct DeviceQueue

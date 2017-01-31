@@ -9,10 +9,6 @@ void main()
 	Window window;
 	window.CreateWindow();
 
-	Renderer renderer;
-	renderer.Init(window);
-
-
 	while (!window.ShouldClose())
 	{
 		glfwPollEvents();

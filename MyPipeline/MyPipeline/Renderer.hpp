@@ -13,34 +13,48 @@ public:
 	Renderer();
 	~Renderer();
 
-	void Init(Window& window);
+	void Init();
+
+	void SetupPipeline();
 
 	void Render();
 
+	VkInstance GetInstance();
+
+	VkPhysicalDevice GetPhysicalDevice();
+
+	VkDevice GetDevice();
+
+	DeviceQueue GetGraphicsQueue();
+	DeviceQueue GetTransferQueue();
+	DeviceQueue GetPresentQueue();
+
+	void SetFormat(VkSurfaceFormatKHR format);
+
 private:
 
-	VkInstance instance;
+	VkInstance instance = VK_NULL_HANDLE;
 
-	VkPhysicalDevice physicalDevice;
-	VkDevice logicalDevice;
+	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+	VkDevice logicalDevice = VK_NULL_HANDLE;
 
-	DeviceQueue graphicsQueue;
-	DeviceQueue presentQueue;
-	DeviceQueue transferQueue;
+	DeviceQueue graphicsQueue{};
+	DeviceQueue presentQueue{};
+	DeviceQueue transferQueue{};
 
-	VkCommandPool cmdPool;
+	VkCommandPool cmdPool = VK_NULL_HANDLE;
 	std::vector<VkCommandBuffer> cmdBuffers;
 
-	VkRenderPass renderPass;
-	VkPipeline graphicsPipeline;
+	VkRenderPass renderPass = VK_NULL_HANDLE;
+	VkPipeline graphicsPipeline = VK_NULL_HANDLE;
+
+	VkSurfaceFormatKHR presentationFormat{};
 
 	void CreateInstance();
 
 	void CreateDebugCallback();
 
 	void PickPhysicalDevice();
-
-	void UpdateWindow(Window& window);
 
 	void CreateCommandBuffers();
 
@@ -51,8 +65,6 @@ private:
 	void PrintLayers();
 
 	void PrintExtensions();
-
-	void UpdateWindow(Window& window);
 
 	Renderer(Renderer &other);
 	

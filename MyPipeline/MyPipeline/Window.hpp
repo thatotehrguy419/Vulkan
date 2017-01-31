@@ -4,9 +4,10 @@
 
 
 #include <Vulkan/vulkan.h>
-#include "GLFW/glfw3.h"
 #include <vector>
 #include "RendererStructs.hpp"
+#include "GLFW/glfw3.h"
+#include "Renderer.hpp"
 
 class Window
 {
@@ -16,23 +17,21 @@ public:
 
 	bool ShouldClose();
 
-	VkSurfaceKHR GetWindowSurface();
+	void CreateSwapchain();
 
-	Swapchain GetSwapchain();
-
-	void SetSwapchain(Swapchain chain);
-
-	void CreateSurface(VkInstance instance);
+	void CreateSurface();
 
 	void CreateWindow();
 
 	static void InitGLFW();
 
 private:
-	GLFWwindow* window;
-	VkSurfaceKHR surface;
+	GLFWwindow* window = nullptr;
+	VkSurfaceKHR surface = VK_NULL_HANDLE;
 
-	Swapchain swapchain;	
+	Renderer renderer;
+
+	Swapchain swapchain{};
 
 	static bool initialized;
 };
