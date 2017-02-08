@@ -87,7 +87,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\DevLibs\Vulkan\1.0.37.0\Include;C:\DevLibs\GLFW\glfw-3.2.1.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DevLibs\Vulkan\1.0.37.0\Include;C:\DevLibs\GLFW\glfw-3.2.1.bin.WIN64\include;C:\DevLibs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\DevLibs\Vulkan\1.0.37.0\Bin;C:\DevLibs\GLFW\glfw-3.2.1.bin.WIN64\lib-vc2015;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

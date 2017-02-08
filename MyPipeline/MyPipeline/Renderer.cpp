@@ -863,6 +863,22 @@ void Renderer::CreateDescriptors()
 
 	result = vkAllocateDescriptorSets(logicalDevice, &allocinfo, &descriptorSet);
 	assert(result == VK_SUCCESS);
+
+	VkDescriptorBufferInfo buffinfo{};
+	buffinfo.buffer = uniformBuffer.buffer;
+	buffinfo.offset = 0;
+	buffinfo.range = VK_WHOLE_SIZE;
+
+	VkWriteDescriptorSet write{};
+	write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+	write.descriptorCount = 1;
+	write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+	write.dstBinding = 0;
+	write.dstArrayElement = 0;
+	write.dstSet = 0;
+	write.pBufferInfo = &buffinfo;
+
+	vkUpdateDescriptorSets(logicalDevice, 1, &write,0,nullptr);
 }
 
 void Renderer::CreateBuffer(Buffer* buffer, VkDeviceSize size, VkBufferUsageFlags usage, std::set<uint32_t> set)
