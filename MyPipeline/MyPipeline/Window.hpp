@@ -2,10 +2,9 @@
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
 
-
+#include "DebugMode.hpp"
 #include <Vulkan/vulkan.h>
 #include <vector>
-#include "RendererStructs.hpp"
 #include "GLFW/glfw3.h"
 #include "Renderer.hpp"
 
@@ -15,23 +14,17 @@ public:
 	Window();
 	~Window();
 
-	bool ShouldClose();
+	void Update();
 
-	void CreateSwapchain();
-
-	void CreateSurface();
-
-	void CreateWindow();
-
-	static void InitGLFW();
+	int ShouldClose();
 
 private:
+
 	GLFWwindow* window = nullptr;
-	VkSurfaceKHR surface = VK_NULL_HANDLE;
 
 	Renderer renderer;
 
-	Swapchain swapchain{};
+	void CreateWindow();
 
 	static bool initialized;
 };

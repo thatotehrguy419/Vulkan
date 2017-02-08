@@ -1,11 +1,12 @@
-#ifndef GRAPHICS_HPP
-#define GRAPHICS_HPP
+#pragma once
+#ifndef RENDERER_HPP
+#define RENDERER_HPP
 
-#include "vulkan/vulkan.hpp"
-#include "glfw/glfw3.h"
-#include "Window.hpp"
+#include <iostream>
 #include <vector>
-#include "RendererStructs.hpp"
+#include "vulkan/vulkan.hpp"
+#include "GLFW/glfw3.h"
+#include "RendererUtils.hpp"
 
 class Renderer
 {
@@ -15,59 +16,111 @@ public:
 
 	void Init();
 
-	void SetupPipeline();
-
 	void Render();
 
-	VkInstance GetInstance();
+	void CreateInstance();
 
-	VkPhysicalDevice GetPhysicalDevice();
+	void CreateDebugCallback();
 
-	VkDevice GetDevice();
+	void CreateSurface(GLFWwindow* window);
 
-	DeviceQueue GetGraphicsQueue();
-	DeviceQueue GetTransferQueue();
-	DeviceQueue GetPresentQueue();
+	void PickPhysicalDevice();
 
-	void SetFormat(VkSurfaceFormatKHR format);
+	void CreateCommandBuffers();
+
+	void CreateSwapchain();
+
+	void CreateRenderPass();
+
+	void CreatePipeline();
 
 private:
 
+	VkDebugReportCallbackEXT debugCallback = VK_NULL_HANDLE;
+	PFN_vkCreateDebugReportCallbackEXT CreateCallback = nullptr;
+	PFN_vkDestroyDebugReportCallbackEXT DestroyCallback = nullptr;
+
 	VkInstance instance = VK_NULL_HANDLE;
 
-	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+	Swapchain swapchain;
+	VkSurfaceKHR surface = VK_NULL_HANDLE;
+
+	PhysicalDevice physicalDevice;
 	VkDevice logicalDevice = VK_NULL_HANDLE;
 
 	DeviceQueue graphicsQueue{};
 	DeviceQueue presentQueue{};
 	DeviceQueue transferQueue{};
 
-	VkCommandPool cmdPool = VK_NULL_HANDLE;
-	std::vector<VkCommandBuffer> cmdBuffers;
+	VkCommandPool graphicsCmdPool = VK_NULL_HANDLE;
+	VkCommandPool transferCmdPool = VK_NULL_HANDLE;
+	std::vector<VkCommandBuffer> graphicsCmdBuffers;
+	std::vector<VkCommandBuffer> transferCmdBuffers;
 
-	VkRenderPass renderPass = VK_NULL_HANDLE;
+	ImageBuffer depthImage{};
+	Buffer vertexStagingBuffer{};
+	Buffer vertexBuffer{};
+	Buffer uniformBuffer{};
+
+	VkDescriptorPool descriptorPool = VK_NULL_HANDLE;
+	VkDescriptorSet descriptorSet = VK_NULL_HANDLE;
+	VkDescriptorSetLayout descriptorLayout = VK_NULL_HANDLE;
+
+	VkPipelineLayout pipelineLayout;
 	VkPipeline graphicsPipeline = VK_NULL_HANDLE;
+	
+	VkRenderPass renderPass = VK_NULL_HANDLE;
+	std::vector<VkFramebuffer> frameBuffers;
 
-	VkSurfaceFormatKHR presentationFormat{};
+	VkShaderModule vertexModule = VK_NULL_HANDLE;
+	VkShaderModule fragmentModule = VK_NULL_HANDLE;
 
-	void CreateInstance();
+	VkSemaphore imageacquired = VK_NULL_HANDLE;
+	VkSemaphore renderDone = VK_NULL_HANDLE;
 
-	void CreateDebugCallback();
 
-	void PickPhysicalDevice();
-
-	void CreateCommandBuffers();
-
-	void CreateRenderPass();
-
-	void CreatePipeline();
 
 	void PrintLayers();
 
 	void PrintExtensions();
 
+	void CreatePipelineBuffers();
+
+	void CreateDepthImage();
+
+	void CreateDescriptors();
+
+	void CreateBuffer(Buffer* buffer, VkDeviceSize size, VkBufferUsageFlags usage, std::set<uint32_t> indices);
+
+	void CreateShaderModule(VkShaderModule* module, const char* file);
+
+	void DestroyInstance();
+
+	void DestroyValidationCallback();
+
+	void DestroyDevice();
+
+	void DestroySurface();
+
+	void DestroySwapChain();
+
+	void DestroyCommandPools();
+
+	void DestroyDescriptors();
+
+	void DestroyDepthImage();
+
+	void DestroyRenderPass();
+
+	void DestroyBuffers();
+
+	void DestroyShaderModules();
+
+	void DestroyPipeline();
+
+
 	Renderer(Renderer &other);
 	
 };
 
-#endif // !GRAPHICS_HPP
+#endif // RENDERER_HPP
